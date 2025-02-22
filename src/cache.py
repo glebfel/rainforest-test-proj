@@ -1,6 +1,10 @@
-import hashlib
+import functools
+import json
+from typing import Any, Callable
 
-from redis import Redis, WatchError
+from pydantic import BaseModel
+from redis import WatchError
+from redis.asyncio.client import Redis
 from redis.backoff import FullJitterBackoff
 from redis.retry import Retry
 
@@ -17,8 +21,33 @@ redis_client = Redis(
 )
 
 
-def generate_cache_key(text: str) -> str:
-    """
-    Generate a SHA-256 hash key for the given text.
-    """
-    return hashlib.sha256(text.encode('utf-8')).hexdigest()
+def cache(ttl_seconds: int = 60):
+    def decorator(func: Callable):
+        @functools.wraps(func)
+        async def wrapper(*args, **kwargs) -> Any:
+            key_parts = [func.__name__] + list(map(str, args)) + [f"{k}={v}" for k, v in kwargs.items()]
+            cache_key = "cache:" + ":".join(key_parts)
+
+            cached_data = await redis_client.get(cache_key)
+            if cached_data is not None:
+                return json.loads(cached_data)
+
+            result = await func(*args, **kwargs)
+
+            def serialize_item(item):
+                if isinstance(item, BaseModel):
+                    return item.model_dump()
+                return item
+
+            if isinstance(result, list):
+                to_store = [serialize_item(item) for item in result]
+            elif isinstance(result, BaseModel):
+                to_store = result.model_dump()
+            else:
+                to_store = result
+
+            await redis_client.setex(name=cache_key, time=ttl_seconds, value=json.dumps(to_store, default=str))
+            return result
+        return wrapper
+
+    return decorator

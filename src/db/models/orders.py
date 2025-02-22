@@ -16,10 +16,10 @@ class OrderModel(IdMixin, DateTimeMixin, Base):
     __tablename__ = "orders"
 
     customer_name = Column(String)
-    total_price = Column(Numeric, nullable=False)
+    total_price = Column(Numeric)
     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING)
 
-    products = relationship("Product", secondary="order_items")
+    order_items = relationship("OrderItemModel", back_populates="order")
 
 
 class OrderItemModel(IdMixin, Base):
@@ -30,5 +30,8 @@ class OrderItemModel(IdMixin, Base):
     quantity = Column(Integer)
     price = Column(Numeric)
 
-    order = relationship("Order", back_populates="products")
-    product = relationship("Product")
+    order = relationship(
+        "OrderModel",
+        back_populates="order_items"
+    )
+    product = relationship("ProductModel")

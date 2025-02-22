@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from fastapi import APIRouter, Depends
 from fastapi import status
 
@@ -13,6 +15,6 @@ async def create_order(order: OrderCreate, order_service: OrderService = Depends
     return await order_service.create_order(order)
 
 
-@orders_router.delete("/{order_id}", status_code=status.HTTP_204_NO_CONTENT)
-async def cancel_order(order_id: int, order_service: OrderService = Depends(get_order_service)):
+@orders_router.post("/{order_id}")
+async def cancel_order(order_id: UUID, order_service: OrderService = Depends(get_order_service)):
     return await order_service.cancel_order(order_id)

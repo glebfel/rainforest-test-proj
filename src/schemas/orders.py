@@ -7,22 +7,20 @@ from pydantic import BaseModel
 
 class OrderItemBase(BaseModel):
     product_id: UUID
-    order_id: UUID
     quantity: int
 
 
 class OrderItem(OrderItemBase):
     id: UUID
     price: Decimal
+    order_id: UUID
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class OrderBase(BaseModel):
     customer_name: str
-    total_price: Decimal
-    status: str
 
 
 class OrderCreate(OrderBase):
@@ -32,8 +30,10 @@ class OrderCreate(OrderBase):
 class Order(OrderBase):
     id: UUID
     items: list[OrderItem]
+    status: str
+    total_price: Decimal
     created_at: datetime
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True

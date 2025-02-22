@@ -1,23 +1,22 @@
 from datetime import datetime
 
 from sqlalchemy import select, func
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import Session
 
-from src.schemas.reports import Report
 from src.db.models.orders import OrderModel, OrderItemModel, OrderStatus
 from src.db.models.products import ProductModel
 
 
 class ReportsService:
-    def __init__(self, db: AsyncSession):
+    def __init__(self, db: Session):
         self.db = db
 
-    async def generate_report(self, start_date: datetime, end_date: datetime) -> Report:
+    def generate_report(self, start_date: datetime, end_date: datetime) -> dict:
         stmt_revenue = (
             select(func.sum(OrderModel.total_price))
             .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
         )
-        result_revenue = await self.db.execute(stmt_revenue)
+        result_revenue = self.db.execute(stmt_revenue)
         total_revenue = result_revenue.scalar() or 0
 
         stmt_profit = (
@@ -26,7 +25,7 @@ class ReportsService:
             .join(OrderModel, OrderModel.id == OrderItemModel.order_id)
             .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
         )
-        result_profit = await self.db.execute(stmt_profit)
+        result_profit = self.db.execute(stmt_profit)
         total_profit = result_profit.scalar() or 0
 
         stmt_units_sold = (
@@ -34,7 +33,7 @@ class ReportsService:
             .join(OrderModel, OrderModel.id == OrderItemModel.order_id)
             .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
         )
-        result_units_sold = await self.db.execute(stmt_units_sold)
+        result_units_sold = self.db.execute(stmt_units_sold)
         units_sold = result_units_sold.scalar() or 0
 
         stmt_returns = (
@@ -46,12 +45,12 @@ class ReportsService:
                 OrderModel.created_at <= end_date
             )
         )
-        result_returns = await self.db.execute(stmt_returns)
+        result_returns = self.db.execute(stmt_returns)
         returns = result_returns.scalar() or 0
 
-        return Report(
-            total_revenue=total_revenue,
-            total_profit=total_profit,
-            units_sold=units_sold,
-            returns=returns
-        )
+        return {
+            "total_revenue": total_revenue,
+            "total_profit": total_profit,
+            "units_sold": units_sold,
+            "returns": returns
+        }

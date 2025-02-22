@@ -17,6 +17,7 @@ class Settings(BaseSettings):
     REDIS_HOST: str = "redis"
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
+    REDIS_CELERY_DB: int = 1
 
     class Config:
         env_file = ".env"

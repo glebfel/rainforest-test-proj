@@ -2,7 +2,8 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
-from services.products import ProductService
+from src.cache import cache
+from src.services.products import ProductService
 from src.dependencies import get_product_service
 from src.schemas.products import Product, ProductCreate
 
@@ -27,6 +28,7 @@ async def update_product(
 
 
 @products_router.get("/")
+@cache(ttl_seconds=20)
 async def get_products(
         skip: int = 0,
         limit: int = 10,
