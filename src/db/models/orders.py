@@ -1,9 +1,9 @@
 from enum import StrEnum
 
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, Enum
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum, UUID, Numeric
 from sqlalchemy.orm import relationship
 
-from src.db.base import Base, DateTimeMixin
+from src.db.base import Base, DateTimeMixin, IdMixin
 
 
 class OrderStatus(StrEnum):
@@ -12,25 +12,23 @@ class OrderStatus(StrEnum):
     COMPLETED = "Completed"
 
 
-class Order(DateTimeMixin, Base):
+class OrderModel(IdMixin, DateTimeMixin, Base):
     __tablename__ = "orders"
 
-    id = Column(Integer, primary_key=True, index=True)
     customer_name = Column(String)
-    total_price = Column(Float, nullable=False)
+    total_price = Column(Numeric, nullable=False)
     status = Column(Enum(OrderStatus), default=OrderStatus.PENDING)
 
     products = relationship("Product", secondary="order_items")
 
 
-class OrderItem(Base):
+class OrderItemModel(IdMixin, Base):
     __tablename__ = "order_items"
 
-    id = Column(Integer, primary_key=True, index=True)
-    order_id = Column(Integer, ForeignKey("orders.id"))
-    product_id = Column(Integer, ForeignKey("products.id"))
+    order_id = Column(UUID, ForeignKey("orders.id"))
+    product_id = Column(UUID, ForeignKey("products.id"))
     quantity = Column(Integer)
-    price = Column(Float)
+    price = Column(Numeric)
 
     order = relationship("Order", back_populates="products")
     product = relationship("Product")

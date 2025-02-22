@@ -8,6 +8,7 @@ services:
       - "8000:8000"
     depends_on:
       - redis
+      - db
 
   redis:
     image: redis:latest
@@ -19,6 +20,7 @@ services:
 
   db:
     image: postgres:latest
+    container_name: db-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

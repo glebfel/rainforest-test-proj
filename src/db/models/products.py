@@ -1,13 +1,12 @@
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import validates
 
-from src.db.base import Base, DateTimeMixin
+from src.db.base import Base, DateTimeMixin, IdMixin
 
 
-class Product(DateTimeMixin, Base):
+class ProductModel(IdMixin, DateTimeMixin, Base):
     __tablename__ = "products"
 
-    id = Column(Integer, primary_key=True, index=True)
     name = Column(String, nullable=False, unique=True)
     description = Column(String)
     price = Column(Float, nullable=False)

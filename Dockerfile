@@ -29,4 +29,4 @@ COPY . .
 
 RUN chgrp -R 0 /app && chmod -R g=u /app
 
-ENTRYPOINT ["uvicorn", "main:create_app", "--host", "0.0.0.0", "--port", "8008"]
+ENTRYPOINT ["uvicorn", "main:create_app", "--host", "0.0.0.0", "--port", "8000"]

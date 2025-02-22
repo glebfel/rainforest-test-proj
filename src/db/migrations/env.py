@@ -8,8 +8,8 @@ from sqlalchemy.ext.asyncio import create_async_engine
 
 from src.settings import settings
 from src.db.base import Base
-from src.db.models.orders import Order, OrderItem
-from src.db.models.products import Product
+from src.db.models.orders import OrderModel, OrderItemModel
+from src.db.models.products import ProductModel
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
