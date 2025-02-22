@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 
 from src.cache import cache
 from src.services.products import ProductService
@@ -12,6 +12,7 @@ products_router = APIRouter()
 
 @products_router.post("/")
 async def create_product(
+        request: Request,
         product: ProductCreate,
         product_service: ProductService = Depends(get_product_service),
 ) -> Product:
@@ -20,6 +21,7 @@ async def create_product(
 
 @products_router.put("/{product_id}")
 async def update_product(
+        request: Request,
         product_id: UUID,
         product: ProductUpdate,
         product_service: ProductService = Depends(get_product_service),
@@ -30,6 +32,7 @@ async def update_product(
 @products_router.get("/")
 @cache(ttl_seconds=5)
 async def get_products(
+        request: Request,
         skip: int = 0,
         limit: int = 10,
         product_service: ProductService = Depends(get_product_service),
