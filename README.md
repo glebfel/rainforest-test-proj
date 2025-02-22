@@ -86,27 +86,9 @@ CELERY_RESULT_BACKEND=redis://redis:6379/1
 - **celery**  
   A container running Celery worker. Depends on `redis` (for broker/backend) and `db-postgres` if tasks need DB access.
 
-## Changing Migration Commands
-
-By default, the `migrate` service might look like this in your `docker-compose.yml`:
-
-```yaml
-migrate:
-  build: .
-  container_name: migrate
-  command: alembic upgrade head
-  depends_on:
-    - db
-  env_file:
-    - .env
-```
-
-- If you use a different migration tool, replace `alembic upgrade head` with the command appropriate for your setup.
-- Make sure the container includes the necessary migration tool in its `Dockerfile` (e.g., Alembic installed in `requirements.txt`).
-
 ## Usage
 
-- After the containers are up, you can create or list products, orders, and so on (depending on your endpoints).
+- After the containers are up, you can create or list products, orders, and so on.
 - For background tasks (Celery), your code will publish tasks to Redis. The `celery` service will process them in the background.
 
 ## Stopping
