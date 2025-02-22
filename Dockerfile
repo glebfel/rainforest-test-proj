@@ -13,7 +13,7 @@ ENV PATH=$PATH:/etc/poetry/bin
 # Configure Poetry
 RUN poetry config virtualenvs.in-project true
 COPY ./pyproject.toml ./poetry.lock ./
-RUN poetry install
+RUN poetry install --only main
 RUN poetry add uvloop
 
 # Build final image

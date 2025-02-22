@@ -1,7 +1,7 @@
 import datetime
 import uuid
 
-from sqlalchemy import MetaData, Column, DateTime, UUID
+from sqlalchemy import UUID, Column, DateTime, MetaData
 from sqlalchemy.orm import declarative_base
 
 from src.settings import settings
@@ -14,5 +14,10 @@ class IdMixin:
 
 
 class DateTimeMixin:
-    updated_at = Column(DateTime, nullable=False, default=datetime.datetime.now, onupdate=datetime.datetime.now)
+    updated_at = Column(
+        DateTime,
+        nullable=False,
+        default=datetime.datetime.now,
+        onupdate=datetime.datetime.now,
+    )
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.now)

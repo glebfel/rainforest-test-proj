@@ -3,7 +3,7 @@ name = "rainforest-test-proj"
 version = "0.1.0"
 description = ""
 authors = ["glebfel <felyust@list.ru>"]
-package-mode = false
+#package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
@@ -18,6 +18,13 @@ greenlet = "^3.1.1"
 celery = "^5.4.0"
 psycopg2-binary = "^2.9.10"
 slowapi = "^0.1.9"
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^4.1.0"
+mypy = "^1.15.0"
+isort = "^6.0.0"
+black = "^25.1.0"
+autoflake = "^2.3.1"
 
 
 [build-system]

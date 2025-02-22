@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 from fastapi import FastAPI
-from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
+from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
 
 from src.settings import settings
 
@@ -19,10 +19,10 @@ def _setup_db(app: FastAPI) -> None:  # pragma: no cover
     """
     engine = create_async_engine(
         (
-            f'postgresql+asyncpg://'
-            f'{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}'
-            f'@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}'
-            f'/{settings.POSTGRES_DB}'
+            f"postgresql+asyncpg://"
+            f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
+            f"@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}"
+            f"/{settings.POSTGRES_DB}"
         ),
         pool_size=20,
         pool_pre_ping=True,

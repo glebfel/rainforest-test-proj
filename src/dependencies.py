@@ -1,6 +1,6 @@
 from typing import AsyncGenerator
 
-from fastapi import Request, Depends
+from fastapi import Depends, Request
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 

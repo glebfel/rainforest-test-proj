@@ -25,7 +25,11 @@ def cache(ttl_seconds: int = 60):
     def decorator(func: Callable):
         @functools.wraps(func)
         async def wrapper(*args, **kwargs) -> Any:
-            key_parts = [func.__name__] + list(map(str, args)) + [f"{k}={v}" for k, v in kwargs.items()]
+            key_parts = (
+                [func.__name__]
+                + list(map(str, args))
+                + [f"{k}={v}" for k, v in kwargs.items()]
+            )
             cache_key = "cache:" + ":".join(key_parts)
 
             cached_data = await redis_client.get(cache_key)
@@ -46,8 +50,13 @@ def cache(ttl_seconds: int = 60):
             else:
                 to_store = result
 
-            await redis_client.setex(name=cache_key, time=ttl_seconds, value=json.dumps(to_store, default=str))
+            await redis_client.setex(
+                name=cache_key,
+                time=ttl_seconds,
+                value=json.dumps(to_store, default=str),
+            )
             return result
+
         return wrapper
 
     return decorator

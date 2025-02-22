@@ -12,10 +12,10 @@ from src.settings import settings
 def generate_report_task(start_date_str: datetime, end_date_str: datetime) -> dict:
     engine = create_engine(
         (
-            f'postgresql://'
-            f'{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}'
-            f'@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}'
-            f'/{settings.POSTGRES_DB}'
+            f"postgresql://"
+            f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
+            f"@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}"
+            f"/{settings.POSTGRES_DB}"
         ),
         pool_size=20,
         pool_pre_ping=True,

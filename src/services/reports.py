@@ -1,9 +1,9 @@
 from datetime import datetime
 
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from src.db.models.orders import OrderModel, OrderItemModel, OrderStatus
+from src.db.models.orders import OrderItemModel, OrderModel, OrderStatus
 from src.db.models.products import ProductModel
 
 
@@ -12,18 +12,25 @@ class ReportsService:
         self.db = db
 
     def generate_report(self, start_date: datetime, end_date: datetime) -> dict:
-        stmt_revenue = (
-            select(func.sum(OrderModel.total_price))
-            .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
+        stmt_revenue = select(func.sum(OrderModel.total_price)).where(
+            OrderModel.created_at >= start_date,
+            OrderModel.created_at <= end_date,
         )
         result_revenue = self.db.execute(stmt_revenue)
         total_revenue = result_revenue.scalar() or 0
 
         stmt_profit = (
-            select(func.sum(OrderItemModel.quantity * (ProductModel.price - ProductModel.cost)))
+            select(
+                func.sum(
+                    OrderItemModel.quantity * (ProductModel.price - ProductModel.cost),
+                ),
+            )
             .join(ProductModel, ProductModel.id == OrderItemModel.product_id)
             .join(OrderModel, OrderModel.id == OrderItemModel.order_id)
-            .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
+            .where(
+                OrderModel.created_at >= start_date,
+                OrderModel.created_at <= end_date,
+            )
         )
         result_profit = self.db.execute(stmt_profit)
         total_profit = result_profit.scalar() or 0
@@ -31,7 +38,10 @@ class ReportsService:
         stmt_units_sold = (
             select(func.sum(OrderItemModel.quantity))
             .join(OrderModel, OrderModel.id == OrderItemModel.order_id)
-            .where(OrderModel.created_at >= start_date, OrderModel.created_at <= end_date)
+            .where(
+                OrderModel.created_at >= start_date,
+                OrderModel.created_at <= end_date,
+            )
         )
         result_units_sold = self.db.execute(stmt_units_sold)
         units_sold = result_units_sold.scalar() or 0
@@ -42,7 +52,7 @@ class ReportsService:
             .where(
                 OrderModel.status == OrderStatus.CANCELLED,
                 OrderModel.created_at >= start_date,
-                OrderModel.created_at <= end_date
+                OrderModel.created_at <= end_date,
             )
         )
         result_returns = self.db.execute(stmt_returns)

@@ -2,9 +2,13 @@ import socket
 
 from celery import Celery
 
-from settings import settings
+from src.settings import settings
 
-celery_app = Celery("main", broker=settings.CELERY_BROKER_URL, backend=settings.CELERY_RESULT_BACKEND_URL)
+celery_app = Celery(
+    "main",
+    broker=settings.CELERY_BROKER_URL,
+    backend=settings.CELERY_RESULT_BACKEND_URL,
+)
 
 celery_app.autodiscover_tasks(
     [

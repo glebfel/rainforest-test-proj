@@ -1,6 +1,6 @@
 from enum import StrEnum
 
-from sqlalchemy import Column, Integer, String, ForeignKey, Enum, UUID, Numeric
+from sqlalchemy import UUID, Column, Enum, ForeignKey, Integer, Numeric, String
 from sqlalchemy.orm import relationship
 
 from src.db.base import Base, DateTimeMixin, IdMixin
@@ -32,6 +32,6 @@ class OrderItemModel(IdMixin, Base):
 
     order = relationship(
         "OrderModel",
-        back_populates="order_items"
+        back_populates="order_items",
     )
     product = relationship("ProductModel")

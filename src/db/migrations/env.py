@@ -1,15 +1,12 @@
 import asyncio
 from logging.config import fileConfig
 
-from sqlalchemy.future import Connection
-
 from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.future import Connection
 
-from src.settings import settings
 from src.db.base import Base
-from src.db.models.orders import OrderModel, OrderItemModel
-from src.db.models.products import ProductModel
+from src.settings import settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -44,10 +41,12 @@ def run_migrations_offline() -> None:
 
     """
     context.configure(
-        url=(f'postgresql+asyncpg://'
-             f'{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}'
-             f'@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}'
-             f'/{settings.POSTGRES_DB}'),
+        url=(
+            f"postgresql+asyncpg://"
+            f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
+            f"@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}"
+            f"/{settings.POSTGRES_DB}"
+        ),
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -77,10 +76,12 @@ async def run_migrations_online() -> None:
     and associate a connection with the context.
     """
     connectable = create_async_engine(
-        (f'postgresql+asyncpg://'
-         f'{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}'
-         f'@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}'
-         f'/{settings.POSTGRES_DB}'),
+        (
+            f"postgresql+asyncpg://"
+            f"{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}"
+            f"@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}"
+            f"/{settings.POSTGRES_DB}"
+        ),
     )
 
     async with connectable.connect() as connection:

@@ -1,7 +1,7 @@
-from fastapi import FastAPI, HTTPException, status, Request
+from fastapi import FastAPI, HTTPException, Request, status
 from fastapi.middleware.cors import CORSMiddleware
+from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
-from slowapi import _rate_limit_exceeded_handler, Limiter
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 
@@ -13,7 +13,7 @@ from src.settings import settings
 def rate_limit_handler(request: Request, exc: RateLimitExceeded):
     return HTTPException(
         status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-        detail="Rate limit exceeded. Try again later."
+        detail="Rate limit exceeded. Try again later.",
     )
 
 

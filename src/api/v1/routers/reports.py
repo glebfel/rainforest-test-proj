@@ -9,7 +9,11 @@ reports_router = APIRouter()
 
 
 @reports_router.get("/")
-def generate_report_background(request: Request, start_date: datetime, end_date: datetime) -> dict:
+def generate_report_background(
+    request: Request,
+    start_date: datetime,
+    end_date: datetime,
+) -> dict:
     task = generate_report_task.delay(start_date, end_date)
     return {"task_id": task.id}
 
@@ -36,4 +40,3 @@ def get_report_status(request: Request, task_id: str) -> dict:
         }
     else:
         return {"task_id": task_id, "status": task.state}
-
