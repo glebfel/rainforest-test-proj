@@ -22,7 +22,3 @@ def get_product_service(db: AsyncSession = Depends(get_db)) -> ProductService:
 
 def get_order_service(db: AsyncSession = Depends(get_db)) -> OrderService:
     return OrderService(db)
-
-
-def get_redis_client(request: Request) -> Redis:
-    return request.app.state.redis_client
