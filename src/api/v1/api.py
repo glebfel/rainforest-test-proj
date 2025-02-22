@@ -1,8 +1,8 @@
 from fastapi import APIRouter
 
-from api.v1.routers.orders import orders_router
-from api.v1.routers.products import products_router
-from api.v1.routers.reports import reports_router
+from src.api.v1.routers.orders import orders_router
+from src.api.v1.routers.products import products_router
+from src.api.v1.routers.reports import reports_router
 
 v1_router = APIRouter()
 

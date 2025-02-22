@@ -28,7 +28,7 @@ class OrderItemModel(IdMixin, Base):
     order_id = Column(UUID, ForeignKey("orders.id"))
     product_id = Column(UUID, ForeignKey("products.id"))
     quantity = Column(Integer)
-    price = Column(Numeric)
+    total_price = Column(Numeric)
 
     order = relationship(
         "OrderModel",

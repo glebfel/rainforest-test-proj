@@ -52,7 +52,7 @@ class OrderService:
                     order_id=db_order.id,
                     product_id=product.id,
                     quantity=item_data.quantity,
-                    price=product.price
+                    total_price=line_price,
                 )
                 order_items.append(db_order_item)
 

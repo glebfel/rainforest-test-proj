@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float
+from sqlalchemy import Column, Integer, String, Numeric
 from sqlalchemy.orm import validates
 
 from src.db.base import Base, DateTimeMixin, IdMixin
@@ -9,10 +9,18 @@ class ProductModel(IdMixin, DateTimeMixin, Base):
 
     name = Column(String, nullable=False, unique=True)
     description = Column(String)
-    price = Column(Float, nullable=False)
+    price = Column(Numeric, nullable=False)
+    cost = Column(Numeric, nullable=False)
     stock = Column(Integer, default=0)
 
     @validates('price')
     def validate_price(self, key, price):
-        assert price >= 0, "Price cannot be negative"
+        if price < 0:
+            raise ValueError("Price must be greater than 0")
         return price
+
+    @validates('cost')
+    def validate_cost(self, key, cost):
+        if cost < 0:
+            raise ValueError("Cost must be greater than 0")
+        return cost

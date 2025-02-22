@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends
 from src.cache import cache
 from src.services.products import ProductService
 from src.dependencies import get_product_service
-from src.schemas.products import Product, ProductCreate
+from src.schemas.products import Product, ProductCreate, ProductUpdate
 
 products_router = APIRouter()
 
@@ -21,14 +21,14 @@ async def create_product(
 @products_router.put("/{product_id}")
 async def update_product(
         product_id: UUID,
-        product: ProductCreate,
+        product: ProductUpdate,
         product_service: ProductService = Depends(get_product_service),
 ) -> Product:
     return await product_service.update_product(product_id, product)
 
 
 @products_router.get("/")
-@cache(ttl_seconds=20)
+@cache(ttl_seconds=5)
 async def get_products(
         skip: int = 0,
         limit: int = 10,

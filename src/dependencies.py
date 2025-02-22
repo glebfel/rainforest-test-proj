@@ -4,9 +4,8 @@ from fastapi import Request, Depends
 from redis.asyncio import Redis
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from services.orders import OrderService
-from services.products import ProductService
-from services.reports import ReportsService
+from src.services.orders import OrderService
+from src.services.products import ProductService
 
 
 async def get_db(request: Request) -> AsyncGenerator[AsyncSession, None]:

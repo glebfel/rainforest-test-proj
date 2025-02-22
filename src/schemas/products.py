@@ -9,11 +9,20 @@ class ProductBase(BaseModel):
     name: str
     description: str | None = None
     price: Decimal
+    cost: Decimal
     stock: int = 0
 
 
 class ProductCreate(ProductBase):
     pass
+
+
+class ProductUpdate(BaseModel):
+    name: str | None = None
+    description: str | None = None
+    price: Decimal | None = None
+    cost: Decimal | None = None
+    stock: int | None = None
 
 
 class Product(ProductBase):

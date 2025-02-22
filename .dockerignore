@@ -1,0 +1,12 @@
+.idea
+.tox
+.pytest_cache
+.mypy_cache
+.github
+logs
+db.sqlite3
+db
+__pycache__/
+static
+.vscode
+.venv

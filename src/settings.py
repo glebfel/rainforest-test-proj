@@ -9,7 +9,7 @@ class Settings(BaseSettings):
 
     POSTGRES_HOST: str = "postgres"
     POSTGRES_PORT: int = 5432
-    POSTGRES_DB: str = "postgres"
+    POSTGRES_DB: str = "db"
     POSTGRES_SCHEMA: str = "public"
     POSTGRES_USER: str = "postgres"
     POSTGRES_PASSWORD: str = "postgres"
@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     REDIS_PORT: int = 6379
     REDIS_DB: int = 0
     REDIS_CELERY_DB: int = 1
+
+    CELERY_BROKER_URL: str = "redis://redis:6379/1"
+    CELERY_RESULT_BACKEND_URL: str = "redis://redis:6379/1"
 
     class Config:
         env_file = ".env"

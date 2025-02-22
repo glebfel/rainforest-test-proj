@@ -52,5 +52,5 @@ class ReportsService:
             "total_revenue": total_revenue,
             "total_profit": total_profit,
             "units_sold": units_sold,
-            "returns": returns
+            "returns": returns,
         }

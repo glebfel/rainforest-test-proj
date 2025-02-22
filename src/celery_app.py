@@ -4,10 +4,7 @@ from celery import Celery
 
 from settings import settings
 
-broker_url = f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}/{settings.REDIS_CELERY_DB}"
-backend_url = f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}/{settings.REDIS_CELERY_DB}"
-
-celery_app = Celery("tasks", broker=broker_url, backend=backend_url)
+celery_app = Celery("main", broker=settings.CELERY_BROKER_URL, backend=settings.CELERY_RESULT_BACKEND_URL)
 
 celery_app.autodiscover_tasks(
     [

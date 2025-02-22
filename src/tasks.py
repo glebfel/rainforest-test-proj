@@ -4,11 +4,11 @@ from celery import shared_task
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from services.reports import ReportsService
-from settings import settings
+from src.services.reports import ReportsService
+from src.settings import settings
 
 
-@shared_task
+@shared_task(name="generate_report_task")
 def generate_report_task(start_date_str: datetime, end_date_str: datetime) -> dict:
     engine = create_engine(
         (

@@ -12,7 +12,7 @@ class OrderItemBase(BaseModel):
 
 class OrderItem(OrderItemBase):
     id: UUID
-    price: Decimal
+    total_price: Decimal
     order_id: UUID
 
     class Config:

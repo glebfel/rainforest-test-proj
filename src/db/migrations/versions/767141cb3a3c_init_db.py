@@ -1,8 +1,8 @@
 """init db
 
-Revision ID: 9e672b85d469
+Revision ID: 767141cb3a3c
 Revises: 
-Create Date: 2025-02-22 12:23:14.781660
+Create Date: 2025-02-22 14:01:09.313049
 
 """
 from typing import Sequence, Union
@@ -12,7 +12,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '9e672b85d469'
+revision: str = '767141cb3a3c'
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -33,7 +33,8 @@ def upgrade() -> None:
     op.create_table('products',
     sa.Column('name', sa.String(), nullable=False),
     sa.Column('description', sa.String(), nullable=True),
-    sa.Column('price', sa.Float(), nullable=False),
+    sa.Column('price', sa.Numeric(), nullable=False),
+    sa.Column('cost', sa.Numeric(), nullable=False),
     sa.Column('stock', sa.Integer(), nullable=True),
     sa.Column('id', sa.UUID(), nullable=False),
     sa.Column('updated_at', sa.DateTime(), nullable=False),
@@ -46,7 +47,7 @@ def upgrade() -> None:
     sa.Column('order_id', sa.UUID(), nullable=True),
     sa.Column('product_id', sa.UUID(), nullable=True),
     sa.Column('quantity', sa.Integer(), nullable=True),
-    sa.Column('price', sa.Numeric(), nullable=True),
+    sa.Column('total_price', sa.Numeric(), nullable=True),
     sa.Column('id', sa.UUID(), nullable=False),
     sa.ForeignKeyConstraint(['order_id'], ['public.orders.id'], ),
     sa.ForeignKeyConstraint(['product_id'], ['public.products.id'], ),

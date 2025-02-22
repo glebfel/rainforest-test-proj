@@ -2,7 +2,7 @@ from datetime import datetime
 
 from fastapi import APIRouter
 
-from celery_app import celery_app
+from src.celery_app import celery_app
 from src.tasks import generate_report_task
 
 reports_router = APIRouter()

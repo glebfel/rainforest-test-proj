@@ -1,9 +1,8 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from fastapi import status
 
-from services.orders import OrderService
+from src.services.orders import OrderService
 from src.dependencies import get_order_service
 from src.schemas.orders import Order, OrderCreate
 
