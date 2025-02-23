@@ -41,7 +41,7 @@ CELERY_BROKER_URL=redis://redis:6379/1
 CELERY_RESULT_BACKEND=redis://redis:6379/1
 ```
 
-> Leave these deafult values to run in Docker. If any variables are omitted, the **default** values in `docker-compose.yml` are used (e.g., `6379` for Redis, `5432` for Postgres).
+> Leave these default values to run in Docker. If any variables are omitted, the **default** values in `docker-compose.yml` are used (e.g., `6379` for Redis, `5432` for Postgres).
 
 ## How It Works
 
