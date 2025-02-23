@@ -10,13 +10,6 @@ from src.lifespan import lifespan
 from src.settings import settings
 
 
-def rate_limit_handler(request: Request, exc: RateLimitExceeded):
-    return HTTPException(
-        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-        detail="Rate limit exceeded. Try again later.",
-    )
-
-
 def create_app() -> FastAPI:
     app = FastAPI(title=settings.TITLE, lifespan=lifespan)
     app.add_middleware(
