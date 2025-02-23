@@ -27,18 +27,21 @@ An example e-commerce backend built with **FastAPI**, **Celery** (for background
 In the project root, create (or edit) a file named `.env`. For example:
 
 ```bash
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
 POSTGRES_DB=ecommerce_db
-POSTGRES_PORT=5432
+POSTGRES_SCHEMA=public
 
+REDIS_HOST=redis
 REDIS_PORT=6379
 
 CELERY_BROKER_URL=redis://redis:6379/1
 CELERY_RESULT_BACKEND=redis://redis:6379/1
 ```
 
-> If any variables are omitted, the **default** values in `docker-compose.yml` are used (e.g., `6379` for Redis, `5432` for Postgres).
+> Leave these deafult values to run in Docker. If any variables are omitted, the **default** values in `docker-compose.yml` are used (e.g., `6379` for Redis, `5432` for Postgres).
 
 ## How It Works
 
